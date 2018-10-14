@@ -25,3 +25,7 @@ https://qiita.com/kaki_k/items/6e17597804437ef170ae
 ~~~
 python manage.py runserver [8000]
 ~~~
+
+### html tag
+
+`<hr>` 水平線
