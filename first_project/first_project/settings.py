@@ -144,7 +144,7 @@ STATICFILES_DIRS = (
 
 # Debug Toolbarの設定
 
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     INTERNAL_IPS = ['127.0.0.1', 'localhost']
