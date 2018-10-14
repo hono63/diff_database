@@ -84,8 +84,7 @@ class GeneralDetail(DetailView):
         # 継承元用 
         context = super().get_context_data(**kwargs)
 
-        # Histプルダウンから
-        context ['pulldown'] = self.pulldown
+        # Histプルダウン結果から
         if self.pullresult != None:
             pd_obj = self.model.objects.get(pk=self.pullresult) # pk とは primary key のこと 
         else:
@@ -102,6 +101,8 @@ class GeneralDetail(DetailView):
         context ['edit_page'] = self.name + "-edit-page"
         context ['list_page'] = self.name + "-list-page"
         context ['delete_page'] = self.name + "-delete-page"
+        # Histプルダウンフォーム 
+        context ['pulldown'] = self.pulldown(initial={"Hist":self.pullresult}) # 初期値を設定することでドロップダウンのリセットを防ぐ 
 
         return context
 
