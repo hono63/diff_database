@@ -25,20 +25,14 @@ class WorkerForm(ModelForm):
 
 from django import forms
 
-class PersonPulldownForm(forms.Form):
-    "PersonモデルのPulldown"
+class PulldownForm(forms.Form):
+    "汎用Pulldownフォーム"
     Hist = forms.ModelChoiceField(label="Hist", widget=forms.Select(
-        attrs={'onChange': 'form.submit();'}), queryset=Person.objects.all())
-
-class ManagerPulldownForm(forms.Form):
-    "ManagerモデルのPulldown"
-    Hist = forms.ModelChoiceField(label="Hist", widget=forms.Select(
-        attrs={'onChange': 'form.submit();'}), queryset=Manager.objects.all())
-
-class WorkerPulldownForm(forms.Form):
-    "WorkerモデルのPulldown"
-    Hist = forms.ModelChoiceField(label="Hist", widget=forms.Select(
-        attrs={'onChange': 'form.submit();'}), queryset=Worker.objects.all())
+        attrs={'onChange': 'form.submit();'}), queryset=None)
+    def __init__(self, model, *args, **kwargs):
+        super(PulldownForm, self).__init__(*args,**kwargs) # これを呼ばないとfieldsが生成されない 
+        self.queryset = model.objects.all()
+        self.fields['Hist'].queryset = model.objects.all()
 
 
 EMPTY_CHOICES = [('empty', '-----')]
@@ -48,7 +42,7 @@ NUMBER_CHOICES = [
     ('three', '3')
 ]
 
-class PulldownForm(forms.Form):
+class PulldownFormSample(forms.Form):
     "Pulldownのサンプル"
     Hist = forms.ChoiceField(label="Hist", widget=forms.Select(
         attrs={'onChange': 'form.submit();'}), choices=EMPTY_CHOICES+NUMBER_CHOICES)

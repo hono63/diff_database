@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 
 from manager.models import Person, Worker, Manager
 from manager.forms import PersonForm, ManagerForm, WorkerForm
-from manager.forms import PersonPulldownForm, ManagerPulldownForm, WorkerPulldownForm
+from manager.forms import PulldownForm
 
 # Create your views here.
 #get_object_404(Person, id=20)
@@ -58,10 +58,9 @@ class GeneralList(ListView):
 class GeneralDetail(DetailView):
     template_name = "general_detail.html"
 
-    def setting(self, model, pulldown):
+    def setting(self, model):
         self.model = model
         self.name = get_global_name(model).lower()
-        self.pulldown = pulldown
         self.pullresult = 1
 
     def get(self, request, *args, **kwargs):
@@ -85,7 +84,7 @@ class GeneralDetail(DetailView):
         context = super().get_context_data(**kwargs)
 
         # Histプルダウン結果から
-        if self.pullresult != None:
+        if (self.pullresult != None) and (self.pullresult != ''):
             pd_obj = self.model.objects.get(pk=self.pullresult) # pk とは primary key のこと 
         else:
             pd_obj = kwargs["object"]
@@ -102,7 +101,10 @@ class GeneralDetail(DetailView):
         context ['list_page'] = self.name + "-list-page"
         context ['delete_page'] = self.name + "-delete-page"
         # Histプルダウンフォーム 
-        context ['pulldown'] = self.pulldown(initial={"Hist":self.pullresult}) # 初期値を設定することでドロップダウンのリセットを防ぐ 
+        if self.pullresult != None:
+            context ['pulldown'] = PulldownForm(self.model, initial={"Hist":self.pullresult}) # 初期値を設定することでドロップダウンのリセットを防ぐ 
+        else:
+            context ['pulldown'] = PulldownForm(self.model) 
 
         return context
 
@@ -162,7 +164,7 @@ class PersonList(GeneralList):
 
 class PersonDetail(GeneralDetail):
     def __init__(self):
-        super().setting(Person, PersonPulldownForm)
+        super().setting(Person)
 
 class PersonEdit(GeneralEdit):
     def __init__(self):
@@ -183,7 +185,7 @@ class ManagerList(GeneralList):
 
 class ManagerDetail(GeneralDetail):
     def __init__(self):
-        super().setting(Manager, ManagerPulldownForm)
+        super().setting(Manager)
 
 class ManagerEdit(GeneralEdit):
     def __init__(self):
@@ -204,7 +206,7 @@ class WorkerList(GeneralList):
 
 class WorkerDetail(GeneralDetail):
     def __init__(self):
-        super().setting(Worker, WorkerPulldownForm)
+        super().setting(Worker)
 
 class WorkerEdit(GeneralEdit):
     def __init__(self):
