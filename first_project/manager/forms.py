@@ -8,11 +8,13 @@ class PersonForm(ModelForm):
         model = Person
         fields = ('name', 'sex', )
 
+
 class ManagerForm(ModelForm):
     """Managerフォーム"""
     class Meta:
         model = Manager
         fields = ('person', 'department', )
+
 
 class WorkerForm(ModelForm):
     """Workerのフォーム"""
@@ -28,8 +30,10 @@ NUMBER_CHOICES = [
     ('one', '1'),
     ('two', '2'),
     ('three', '3')
-    ]
+]
+
 
 class PulldownForm(forms.Form):
     "Pulldownのサンプル"
-    number_choice = forms.ChoiceField(label="Hist", widget=forms.Select, choices=EMPTY_CHOICES+NUMBER_CHOICES)
+    Hist = forms.ChoiceField(label="Hist", widget=forms.Select(
+        attrs={'onChange': 'form.submit();'}), choices=EMPTY_CHOICES+NUMBER_CHOICES)

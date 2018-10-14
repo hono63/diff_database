@@ -65,11 +65,11 @@ class GeneralDetail(DetailView):
     def get(self, request, *args, **kwargs):
         """
         継承元のクラスを見て適当にオーバーライドした。
-        PulldownFormクラスの変数number_choiceがそのままquery名？になっているもよう。
+        PulldownFormクラスの変数Histがそのままquery名？になっているもよう。
         以下サイトによると、POSTは変更を加えるようなmethod. よってここではGETを使うことにする。
         https://eiry.bitbucket.io/tutorials/tutorial/web_query.html
         """
-        self.pullresult = request.GET.get("number_choice")
+        self.pullresult = request.GET.get("Hist")
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
