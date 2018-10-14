@@ -7,17 +7,25 @@
 <!-- bootloader用おまじない -->
 <div id="wrapper">  <div id="page-wrapper">	<div class="row"> <div class="col-lg-6 full-width margin-top-20percent"> <div class="panel panel-default full-width">
 
-  <h3 class="page-header">{{ title }} 詳細</h3>
-  <a href="{% url edit_page object.id %}" class="btn btn-default btn-sm">編集</a>
-  <a href="{% url delete_page object.id %}" class="btn btn-default btn-sm">削除</a>
-  <a href="{% url list_page %}" class="btn btn-default btn-sm">戻る</a>
+  <h3 class="page-header">{{ title }} 詳細(Detail)</h3>
+  <a href="{% url edit_page object.id %}" class="btn btn-default btn-sm">編集(edit)</a>
+  <a href="{% url delete_page object.id %}" class="btn btn-default btn-sm">削除(delete)</a>
+  <a href="{% url list_page %}" class="btn btn-default btn-sm">戻る(return)</a>
 
   <div class="panel-body full-width full-height">
     <table id="list-table" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline full-width">
+      <tr>
+        <th>Field name</th>
+        <th>Current</th>
+        <th>
+        <form method="get" action="">履歴(History) {{ pullform.number_choice }}</form>
+        </th>
+      </tr>
       {% for f,v in fields %}
         {% if f != "_state" %} {# _stateは除く #}
           <tr>
             <th>{{ f }}</th>
+            <td>{{ v }}</td>
             <td>{{ v }}</td>
           </tr>
         {% endif %}

@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '$^v@)*bsdsn(c%s9jv&gvj6h3k$evv!_93&8bjswg5&d0luduj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'ec2-54-65-149-250.ap-northeast-1.compute.amazonaws.com',
@@ -144,9 +144,9 @@ STATICFILES_DIRS = (
 
 # Debug Toolbarの設定
 
-DEBUG = False
+#DEBUG = False
 
-if DEBUG:
+if 0: #DEBUG:
     INTERNAL_IPS = ['127.0.0.1', 'localhost']
 
     def custom_show_toolbar(request):

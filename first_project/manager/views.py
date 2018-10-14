@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 
 from manager.models import Person, Worker, Manager
 from manager.forms import PersonForm, ManagerForm, WorkerForm
+from manager.forms import PulldownForm
 
 # Create your views here.
 #get_object_404(Person, id=20)
@@ -23,7 +24,7 @@ def get_global_name(ram):
 
 def index(request):
     "トップページのビュー"
-    return HttpResponse("This is top page.")
+    return HttpResponse("This is top page. Add '/peron/' to url. ")
 
 
 class GeneralList(ListView):
@@ -79,6 +80,8 @@ class GeneralDetail(DetailView):
         context ['edit_page'] = self.name + "-edit-page"
         context ['list_page'] = self.name + "-list-page"
         context ['delete_page'] = self.name + "-delete-page"
+        # おためし
+        context ['pullform'] = PulldownForm()
 
         return context
 
