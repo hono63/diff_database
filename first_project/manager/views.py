@@ -20,6 +20,12 @@ def get_global_name(ram):
             break
     return name
 
+
+def index(request):
+    "トップページのビュー"
+    return HttpResponse("This is top page.")
+
+
 class GeneralList(ListView):
     template_name = "general_list.html"
 

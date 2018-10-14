@@ -20,6 +20,8 @@ from manager.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', index, name="top"),
+    path('index/', index, name="index"),
 ]
 
 from django.conf.urls import url
