@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 
 from manager.models import Person, Worker, Manager
 from manager.forms import PersonForm, ManagerForm, WorkerForm
-from manager.forms import PulldownForm
+from manager.forms import PersonPulldownForm, ManagerPulldownForm, WorkerPulldownForm
 
 # Create your views here.
 #get_object_404(Person, id=20)
@@ -58,9 +58,11 @@ class GeneralList(ListView):
 class GeneralDetail(DetailView):
     template_name = "general_detail.html"
 
-    def setting(self, model):
+    def setting(self, model, pulldown):
         self.model = model
         self.name = get_global_name(model).lower()
+        self.pulldown = pulldown
+        self.pullresult = 1
 
     def get(self, request, *args, **kwargs):
         """
@@ -79,20 +81,27 @@ class GeneralDetail(DetailView):
         https://docs.djangoproject.com/en/2.0/ref/class-based-views/generic-display/
         https://stackoverflow.com/questions/2415865/iterating-through-two-lists-in-django-templates
         """
+        # 継承元用 
         context = super().get_context_data(**kwargs)
 
+        # Histプルダウンから
+        context ['pulldown'] = self.pulldown
+        if self.pullresult != None:
+            pd_obj = self.model.objects.get(pk=self.pullresult) # pk とは primary key のこと 
+        else:
+            pd_obj = kwargs["object"]
+        pd_fields = pd_obj.__dict__
+        pd_values = pd_fields.values()
+        # フィールド 
         #dicobj = self.form(data=model_to_dict(self.model.objects.get(pk=kwargs["pk"])))
         #fields = self.form(data=model_to_dict(kwargs["object"]))
         fields = kwargs["object"].__dict__
-        context ['fields'] = zip(fields.keys(), fields.values())
+        context ['fields'] = zip(fields.keys(), fields.values(), pd_values)
         # 名前など
         context ['title'] = self.name.capitalize()
         context ['edit_page'] = self.name + "-edit-page"
         context ['list_page'] = self.name + "-list-page"
         context ['delete_page'] = self.name + "-delete-page"
-        # おためし
-        context ['pullform'] = PulldownForm()
-        context ['pullresult'] = self.pullresult
 
         return context
 
@@ -152,7 +161,7 @@ class PersonList(GeneralList):
 
 class PersonDetail(GeneralDetail):
     def __init__(self):
-        super().setting(Person)
+        super().setting(Person, PersonPulldownForm)
 
 class PersonEdit(GeneralEdit):
     def __init__(self):
@@ -173,7 +182,7 @@ class ManagerList(GeneralList):
 
 class ManagerDetail(GeneralDetail):
     def __init__(self):
-        super().setting(Manager)
+        super().setting(Manager, ManagerPulldownForm)
 
 class ManagerEdit(GeneralEdit):
     def __init__(self):
@@ -194,7 +203,7 @@ class WorkerList(GeneralList):
 
 class WorkerDetail(GeneralDetail):
     def __init__(self):
-        super().setting(Worker)
+        super().setting(Worker, WorkerPulldownForm)
 
 class WorkerEdit(GeneralEdit):
     def __init__(self):

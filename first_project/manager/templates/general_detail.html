@@ -19,17 +19,16 @@
         <th>Current</th>
         <th>
         <form method="get">
-          履歴(History) {{ pullform.Hist }}
-          <!--button type="submit" class="btn btn-primary">送信</button-->
+          履歴(History) {{ pulldown.Hist }}
         </form>
         </th>
       </tr>
-      {% for f,v in fields %}
+      {% for f,v,p in fields %}
         {% if f != "_state" %} {# _stateは除く #}
           <tr>
             <th>{{ f }}</th>
             <td>{{ v }}</td>
-            <td>{{ pullresult }}</td>
+            <td>{{ p }}</td>
           </tr>
         {% endif %}
       {% endfor %}
