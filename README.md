@@ -18,3 +18,9 @@ ALLOWED_HOSTにドメイン名を追加せなあかんかった。
 
 ## crud参考
 https://qiita.com/kaki_k/items/6e17597804437ef170ae
+
+## command
+起動
+~~~
+python manage.py runserver [8000]
+~~~
