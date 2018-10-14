@@ -18,7 +18,10 @@
         <th>Field name</th>
         <th>Current</th>
         <th>
-        <form method="get" action="">履歴(History) {{ pullform.number_choice }}</form>
+        <form method="get">
+          履歴(History) {{ pullform.number_choice }}
+          <button type="submit" class="btn btn-primary">送信</button>
+        </form>
         </th>
       </tr>
       {% for f,v in fields %}
@@ -26,7 +29,7 @@
           <tr>
             <th>{{ f }}</th>
             <td>{{ v }}</td>
-            <td>{{ v }}</td>
+            <td>{{ pullresult }}</td>
           </tr>
         {% endif %}
       {% endfor %}

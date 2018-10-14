@@ -23,13 +23,13 @@ class WorkerForm(ModelForm):
 
 from django import forms
 
-EMPTY_CHOICES = (('', '-'*10))
-NUMBER_CHOICES = (
+EMPTY_CHOICES = [('empty', '-----')]
+NUMBER_CHOICES = [
     ('one', '1'),
     ('two', '2'),
     ('three', '3')
-    )
+    ]
 
 class PulldownForm(forms.Form):
     "Pulldownのサンプル"
-    number_choice = forms.ChoiceField(label="番号", widget=forms.Select, choices=NUMBER_CHOICES)
+    number_choice = forms.ChoiceField(label="Hist", widget=forms.Select, choices=EMPTY_CHOICES+NUMBER_CHOICES)
